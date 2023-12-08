@@ -1,4 +1,4 @@
-# POP Melody Transofmer Output Samples
+# POP Melody Transformer Output Samples
 
 ***
 
