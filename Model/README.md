@@ -1,8 +1,8 @@
-# POP Melody Transformer Pre-Trained Model
+# POP Melody Transformer Pre-Trained Models
 
 ***
 
-## Model is hosted on [Hugging Face](https://huggingface.co/asigalov61/POP-Melody-Transformer)
+## Models are hosted on [Hugging Face](https://huggingface.co/asigalov61/POP-Melody-Transformer)
 
 ***
 
