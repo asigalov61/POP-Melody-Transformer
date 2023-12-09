@@ -406,13 +406,22 @@ print('Done!')
 
 MIDIs_output_folder_path = "/content/Output" # @param {type:"string"}
 
-#@markdown Extraction settings
+#@markdown Melody settings
 
 melody_MIDI_patch_number = 40 # @param {type:"slider", min:0, max:127, step:1}
+melody_max_velocity = 115 # @param {type:"slider", min:1, max:127, step:1}
+
+#@markdown Accompaniment settings
+
 accompaniment_MIDI_patch_number = 0 # @param {type:"slider", min:0, max:127, step:1}
+accompaniment_max_velocity = 85 # @param {type:"slider", min:1, max:127, step:1}
+
+#@markdown Base line settings
+
 add_base_line = True # @param {type:"boolean"}
 base_line_threshold_pitch_number = 50 # @param {type:"slider", min:10, max:60, step:1}
 base_line_MIDI_patch_number = 35 # @param {type:"slider", min:0, max:127, step:1}
+base_line_max_velocity = 100 # @param {type:"slider", min:1, max:127, step:1}
 
 #@markdown Generation settings
 
@@ -421,9 +430,29 @@ number_of_memory_tokens = 4096 # @param {type:"slider", min:3, max:8190, step:3}
 number_of_samples_per_inpainted_note = 1 #@param {type:"slider", min:1, max:16, step:1}
 temperature = 1 # @param {type:"slider", min:0.1, max:1, step:0.05}
 
-#@markdown Other Settings
+#@markdown Other settings
 
 verbose = False # @param {type:"boolean"}
+
+#===============================================
+# Helper function
+#===============================================
+
+def adjust_velocities_in_place(chan, max_velocity):
+
+    min_velocity = min([c[5] for c in chan])
+    max_velocity_all_channels = max([c[5] for c in chan])
+    min_velocity_ratio = min_velocity / max_velocity_all_channels
+
+    max_channel_velocity = max([c[5] for c in chan])
+    if max_channel_velocity < min_velocity:
+        factor = max_velocity / min_velocity
+    else:
+        factor = max_velocity / max_channel_velocity
+    for i in range(len(chan)):
+        chan[i][5] = int(chan[i][5] * factor)
+
+#===============================================
 
 if not os.path.exists(MIDIs_output_folder_path):
     os.makedirs(MIDIs_output_folder_path)
@@ -596,11 +625,23 @@ for j in range(len(melody_chords_f)):
                 song_f_base.append(ss)
 
         #==================================================
+        # Base line stuff
 
         if add_base_line:
           song_final = song_f_base
         else:
           song_final = song_f
+
+        #==================================================
+        # Velocities stuff
+
+        melody_notes = [s for s in song_final if s[3] == 3]
+        accompaniment_notes = [s for s in song_final if s[3] == 0]
+        base_notes = [s for s in song_final if s[3] == 2]
+
+        adjust_velocities_in_place(melody_notes, melody_max_velocity)
+        adjust_velocities_in_place(accompaniment_notes, accompaniment_max_velocity)
+        adjust_velocities_in_place(base_notes, base_line_max_velocity)
 
         #==================================================
 
