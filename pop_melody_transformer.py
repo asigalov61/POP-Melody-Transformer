@@ -315,8 +315,7 @@ def TMIDIX_MIDI_Processor(midi_file):
 
                       if cha != 9:
                         notes.append([time, dur, 0, ptc, vel])
-
-                      pe = e
+                        pe = e
 
                     return [notes, fn1]
 
@@ -409,7 +408,7 @@ MIDIs_output_folder_path = "/content/Output" # @param {type:"string"}
 #@markdown Melody settings
 
 melody_MIDI_patch_number = 40 # @param {type:"slider", min:0, max:127, step:1}
-melody_max_velocity = 115 # @param {type:"slider", min:1, max:127, step:1}
+melody_max_velocity = 120 # @param {type:"slider", min:1, max:127, step:1}
 
 #@markdown Accompaniment settings
 
@@ -427,7 +426,7 @@ base_line_max_velocity = 100 # @param {type:"slider", min:1, max:127, step:1}
 
 number_of_prime_notes = 1 # @param {type:"slider", min:1, max:256, step:1}
 number_of_memory_tokens = 4096 # @param {type:"slider", min:3, max:8190, step:3}
-number_of_samples_per_inpainted_note = 1 #@param {type:"slider", min:1, max:16, step:1}
+number_of_samples_per_note = 1 #@param {type:"slider", min:1, max:16, step:1}
 temperature = 1 # @param {type:"slider", min:0.1, max:1, step:0.05}
 
 #@markdown Other settings
@@ -468,7 +467,7 @@ for j in range(len(melody_chords_f)):
     fname = melody_chords_f[j][1]
 
     print('=' * 70)
-    print('Processing MIDI file', j, 'out of', len(melody_chords_f))
+    print('Processing MIDI file', j+1, 'out of', len(melody_chords_f))
     print('MIDI file name:', fname+'.mid')
     print('=' * 70)
 
@@ -499,7 +498,7 @@ for j in range(len(melody_chords_f)):
 
             samples = []
 
-            for j in range(number_of_samples_per_inpainted_note):
+            for j in range(number_of_samples_per_note):
 
                 inp = torch.LongTensor(out2[-number_of_memory_tokens:]).cuda()
 
