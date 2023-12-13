@@ -416,9 +416,6 @@ if len(out) != 0:
             if channel == 1:
                 channel = 3
 
-        if 642 <= ss < 770:
-            vel = ss-642
-
             song_f.append(['note', time, dur, channel, pitch, vel ])
 
 detailed_stats = TMIDIX.Tegridy_ms_SONG_to_MIDI_Converter(song_f,
@@ -737,9 +734,6 @@ if len(out) != 0:
 
             if channel == 1:
                 channel = 3
-
-        if 642 <= ss < 770:
-            vel = ss-642
 
             song_f.append(['note', time, dur, channel, pitch, vel ])
 
