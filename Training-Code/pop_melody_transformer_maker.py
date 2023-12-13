@@ -27,13 +27,9 @@ WARNING: This complete implementation is a functioning model of the Artificial I
 # (SETUP ENVIRONMENT)
 """
 
-# @title Uninstall old PyTorch
-!pip uninstall torch
-
 #@title Install all dependencies (run only once per session)
 
 !git clone https://github.com/asigalov61/tegridy-tools
-!pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
 !pip install einops
 !pip install torch-summary
 !pip install tqdm
